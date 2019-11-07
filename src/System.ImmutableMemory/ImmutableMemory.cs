@@ -31,13 +31,15 @@ namespace System
 		public override String ToString() => memory.ToString();
 		public Boolean TryCopyTo(Memory<T> destination) => memory.TryCopyTo(destination);
 
-		#if NETSTANDARD_2_1
 		public static ImmutableMemory<T> Create<TState>(Int32 length, TState state, SpanAction<T, TState> action)
 		{
 			var array = new T[length];
 			action(array.AsSpan(), state);
 			return new ImmutableMemory<T>(array.AsMemory());
 		}
-		#endif
 	}
+
+#if !NETSTANDARD_2_1
+	public delegate void SpanAction<T, in TArg>(Span<T> span, TArg arg);
+#endif
 }
