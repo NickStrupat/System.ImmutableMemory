@@ -7,7 +7,7 @@ namespace System
 	{
 		internal readonly ReadOnlySpan<T> span;
 		public ImmutableSpan(ImmutableMemory<T> immutableMemory) => span = immutableMemory.memory.Span;
-		private ImmutableSpan(ReadOnlySpan<T> span) => this.span = span;
+		internal ImmutableSpan(ReadOnlySpan<T> span) => this.span = span;
 		public static ImmutableSpan<T> Empty => new ImmutableSpan<T>(ImmutableMemory<T>.Empty);
 
 		public ReadOnlySpan<T> AsSpan() => span;

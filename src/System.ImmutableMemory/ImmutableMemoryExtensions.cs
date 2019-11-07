@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
-namespace System.ImmutableMemory
+namespace System
 {
 	public static class ImmutableMemoryExtensions
 	{
@@ -11,8 +10,6 @@ namespace System.ImmutableMemory
 		public static ImmutableMemory<Char> AsImmutableMemory(this String @string, Int32 start) => new ImmutableMemory<Char>(@string.AsMemory(start));
 		public static ImmutableMemory<Char> AsImmutableMemory(this String @string, Int32 start, Int32 length) => new ImmutableMemory<Char>(@string.AsMemory(start, length));
 		public static ImmutableMemory<Byte> AsImmutableMemory(this String @string, Encoding encoding) => new ImmutableMemory<Byte>(encoding.GetBytes(@string).AsMemory());
-
-		public static ReadOnlyMemory<T> AsMemory<T>(this ImmutableMemory<T> immutableMemory) => immutableMemory.memory;
 
 		public static ImmutableSpan<Char> AsImmutableSpan(this String text) => text.AsImmutableMemory().AsImmutableSpan();
 		public static ImmutableSpan<Char> AsImmutableSpan(this String text, Int32 start) => text.AsImmutableMemory(start).AsImmutableSpan();
@@ -63,16 +60,16 @@ namespace System.ImmutableMemory
 		public static Int32 ToUpper(this ImmutableSpan<Char> source, Span<Char> destination, CultureInfo culture) => source.AsSpan().ToUpper(destination, culture);
 		public static Int32 ToUpperInvariant(this ImmutableSpan<Char> source, Span<Char> destination) => source.AsSpan().ToUpperInvariant(destination);
 
-		public static ReadOnlySpan<Char> Trim(this ImmutableSpan<Char> span, Char trimChar) => span.AsSpan().Trim(trimChar);
-		public static ReadOnlySpan<Char> Trim(this ImmutableSpan<Char> span) => span.AsSpan().Trim();
-		public static ReadOnlySpan<Char> Trim(this ImmutableSpan<Char> span, ReadOnlySpan<Char> trimChars) => span.AsSpan().Trim(trimChars);
+		public static ImmutableSpan<Char> Trim(this ImmutableSpan<Char> span, Char trimChar) => new ImmutableSpan<Char>(span.AsSpan().Trim(trimChar));
+		public static ImmutableSpan<Char> Trim(this ImmutableSpan<Char> span) => new ImmutableSpan<Char>(span.AsSpan().Trim());
+		public static ImmutableSpan<Char> Trim(this ImmutableSpan<Char> span, ReadOnlySpan<Char> trimChars) => new ImmutableSpan<Char>(span.AsSpan().Trim(trimChars));
 
-		public static ReadOnlySpan<Char> TrimEnd(this ImmutableSpan<Char> span, ReadOnlySpan<Char> trimChars) => span.AsSpan().TrimEnd(trimChars);
-		public static ReadOnlySpan<Char> TrimEnd(this ImmutableSpan<Char> span) => span.AsSpan().TrimEnd();
-		public static ReadOnlySpan<Char> TrimEnd(this ImmutableSpan<Char> span, Char trimChar) => span.AsSpan().TrimEnd(trimChar);
+		public static ImmutableSpan<Char> TrimEnd(this ImmutableSpan<Char> span, ReadOnlySpan<Char> trimChars) => new ImmutableSpan<Char>(span.AsSpan().TrimEnd(trimChars));
+		public static ImmutableSpan<Char> TrimEnd(this ImmutableSpan<Char> span) => new ImmutableSpan<Char>(span.AsSpan().TrimEnd());
+		public static ImmutableSpan<Char> TrimEnd(this ImmutableSpan<Char> span, Char trimChar) => new ImmutableSpan<Char>(span.AsSpan().TrimEnd(trimChar));
 
-		public static ReadOnlySpan<Char> TrimStart(this ImmutableSpan<Char> span, Char trimChar) => span.AsSpan().TrimStart(trimChar);
-		public static ReadOnlySpan<Char> TrimStart(this ImmutableSpan<Char> span) => span.AsSpan().TrimStart();
-		public static ReadOnlySpan<Char> TrimStart(this ImmutableSpan<Char> span, ReadOnlySpan<Char> trimChars) => span.AsSpan().TrimStart(trimChars);
+		public static ImmutableSpan<Char> TrimStart(this ImmutableSpan<Char> span, Char trimChar) => new ImmutableSpan<Char>(span.AsSpan().TrimStart(trimChar));
+		public static ImmutableSpan<Char> TrimStart(this ImmutableSpan<Char> span) => new ImmutableSpan<Char>(span.AsSpan().TrimStart());
+		public static ImmutableSpan<Char> TrimStart(this ImmutableSpan<Char> span, ReadOnlySpan<Char> trimChars) => new ImmutableSpan<Char>(span.AsSpan().TrimStart(trimChars));
 	}
 }
