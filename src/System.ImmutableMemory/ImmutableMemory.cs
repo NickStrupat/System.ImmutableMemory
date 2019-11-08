@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace System
 {
-	public readonly struct ImmutableMemory<T>
+	public readonly struct ImmutableMemory<T> : IEquatable<ImmutableMemory<T>>
 	{
 		internal readonly ReadOnlyMemory<T> memory;
 		public ImmutableMemory(ReadOnlySpan<T> source) => memory = source.IsEmpty ? ReadOnlyMemory<T>.Empty : source.ToArray();
@@ -20,7 +20,7 @@ namespace System
 
 		public void CopyTo(Memory<T> destination) => memory.CopyTo(destination);
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public override Boolean Equals(Object obj) => obj is ImmutableMemory<T> im && memory.Equals(im);
+		public override Boolean Equals(Object obj) => obj is ImmutableMemory<T> im && memory.Equals(im.memory);
 		public Boolean Equals(ImmutableMemory<T> other) => memory.Equals(other.memory);
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		public override Int32 GetHashCode() => memory.GetHashCode();
@@ -40,6 +40,9 @@ namespace System
 	}
 
 #if !NETSTANDARD_2_1
-	public delegate void SpanAction<T, in TArg>(Span<T> span, TArg arg);
+	namespace Buffers
+	{
+		public delegate void SpanAction<T, in TArg>(Span<T> span, TArg arg);
+	}
 #endif
 }
