@@ -5,7 +5,11 @@ VisualStudioVersion = 16.0.29430.225
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{51F5327E-944F-4600-96D4-70DB10BD189C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.ImmutableMemory", "src\System.ImmutableMemory\System.ImmutableMemory.csproj", "{F53BAC48-EEFB-4696-801B-43E8C2C0BBA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.ImmutableMemory", "src\System.ImmutableMemory\System.ImmutableMemory.csproj", "{F53BAC48-EEFB-4696-801B-43E8C2C0BBA5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0F6E0F47-4D95-4321-8204-EC829ADD625A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "test\Tests\Tests.csproj", "{97DF5772-AAC2-4964-AFD6-3011B22DE837}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +21,17 @@ Global
 		{F53BAC48-EEFB-4696-801B-43E8C2C0BBA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F53BAC48-EEFB-4696-801B-43E8C2C0BBA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F53BAC48-EEFB-4696-801B-43E8C2C0BBA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97DF5772-AAC2-4964-AFD6-3011B22DE837}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97DF5772-AAC2-4964-AFD6-3011B22DE837}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97DF5772-AAC2-4964-AFD6-3011B22DE837}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97DF5772-AAC2-4964-AFD6-3011B22DE837}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F53BAC48-EEFB-4696-801B-43E8C2C0BBA5} = {51F5327E-944F-4600-96D4-70DB10BD189C}
+		{97DF5772-AAC2-4964-AFD6-3011B22DE837} = {0F6E0F47-4D95-4321-8204-EC829ADD625A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2D3A71FD-9858-42C0-A3B0-7F14266E39B0}
