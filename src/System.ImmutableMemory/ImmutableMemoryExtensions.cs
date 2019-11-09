@@ -1,15 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 
 namespace System
 {
 	public static class ImmutableMemoryExtensions
 	{
+		public static ImmutableMemory<T> ToImmutableMemory<T>(this ReadOnlySpan<T> span) => new ImmutableMemory<T>(span);
+		public static ImmutableMemory<T> ToImmutableMemory<T>(this ReadOnlySpan<T> span, Int32 start) => new ImmutableMemory<T>(span.Slice(start));
+		public static ImmutableMemory<T> ToImmutableMemory<T>(this ReadOnlySpan<T> span, Int32 start, Int32 length) => new ImmutableMemory<T>(span.Slice(start, length));
+
+		public static ImmutableMemory<T> ToImmutableMemory<T>(this ReadOnlyMemory<T> memory) => new ImmutableMemory<T>(memory.Span);
+		public static ImmutableMemory<T> ToImmutableMemory<T>(this ReadOnlyMemory<T> span, Int32 start) => new ImmutableMemory<T>(span.Span.Slice(start));
+		public static ImmutableMemory<T> ToImmutableMemory<T>(this ReadOnlyMemory<T> span, Int32 start, Int32 length) => new ImmutableMemory<T>(span.Span.Slice(start, length));
+
+		public static ImmutableMemory<T> ToImmutableMemory<T>(this T[] array) => new ImmutableMemory<T>(array.AsSpan());
+		public static ImmutableMemory<T> ToImmutableMemory<T>(this T[] span, Int32 start) => new ImmutableMemory<T>(span.AsSpan(start));
+		public static ImmutableMemory<T> ToImmutableMemory<T>(this T[] span, Int32 start, Int32 length) => new ImmutableMemory<T>(span.AsSpan(start, length));
+
+		public static ImmutableMemory<T> ToImmutableMemory<T>(this ArraySegment<T> array) => new ImmutableMemory<T>(array.AsSpan());
+		public static ImmutableMemory<T> ToImmutableMemory<T>(this ArraySegment<T> span, Int32 start) => new ImmutableMemory<T>(span.AsSpan(start));
+		public static ImmutableMemory<T> ToImmutableMemory<T>(this ArraySegment<T> span, Int32 start, Int32 length) => new ImmutableMemory<T>(span.AsSpan(start, length));
+
 		public static ImmutableMemory<Char> AsImmutableMemory(this String @string) => new ImmutableMemory<Char>(@string.AsMemory());
 		public static ImmutableMemory<Char> AsImmutableMemory(this String @string, Int32 start) => new ImmutableMemory<Char>(@string.AsMemory(start));
 		public static ImmutableMemory<Char> AsImmutableMemory(this String @string, Int32 start, Int32 length) => new ImmutableMemory<Char>(@string.AsMemory(start, length));
-		public static ImmutableMemory<Byte> AsImmutableMemory(this String @string, Encoding encoding) => new ImmutableMemory<Byte>(encoding.GetBytes(@string).AsMemory());
 
 		public static ImmutableSpan<Char> AsImmutableSpan(this String text) => text.AsImmutableMemory().AsImmutableSpan();
 		public static ImmutableSpan<Char> AsImmutableSpan(this String text, Int32 start) => text.AsImmutableMemory(start).AsImmutableSpan();
