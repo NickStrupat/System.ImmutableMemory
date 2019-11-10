@@ -9,9 +9,17 @@ namespace System
 		public static ImmutableMemory<T> ToImmutableMemory<T>(this ReadOnlySpan<T> span, Int32 start) => new ImmutableMemory<T>(span.Slice(start));
 		public static ImmutableMemory<T> ToImmutableMemory<T>(this ReadOnlySpan<T> span, Int32 start, Int32 length) => new ImmutableMemory<T>(span.Slice(start, length));
 
+		public static ImmutableMemory<T> ToImmutableMemory<T>(this Span<T> span) => new ImmutableMemory<T>(span);
+		public static ImmutableMemory<T> ToImmutableMemory<T>(this Span<T> span, Int32 start) => new ImmutableMemory<T>(span.Slice(start));
+		public static ImmutableMemory<T> ToImmutableMemory<T>(this Span<T> span, Int32 start, Int32 length) => new ImmutableMemory<T>(span.Slice(start, length));
+
 		public static ImmutableMemory<T> ToImmutableMemory<T>(this ReadOnlyMemory<T> memory) => new ImmutableMemory<T>(memory.Span);
 		public static ImmutableMemory<T> ToImmutableMemory<T>(this ReadOnlyMemory<T> span, Int32 start) => new ImmutableMemory<T>(span.Span.Slice(start));
 		public static ImmutableMemory<T> ToImmutableMemory<T>(this ReadOnlyMemory<T> span, Int32 start, Int32 length) => new ImmutableMemory<T>(span.Span.Slice(start, length));
+
+		public static ImmutableMemory<T> ToImmutableMemory<T>(this Memory<T> memory) => new ImmutableMemory<T>(memory.Span);
+		public static ImmutableMemory<T> ToImmutableMemory<T>(this Memory<T> span, Int32 start) => new ImmutableMemory<T>(span.Span.Slice(start));
+		public static ImmutableMemory<T> ToImmutableMemory<T>(this Memory<T> span, Int32 start, Int32 length) => new ImmutableMemory<T>(span.Span.Slice(start, length));
 
 		public static ImmutableMemory<T> ToImmutableMemory<T>(this T[] array) => new ImmutableMemory<T>(array.AsSpan());
 		public static ImmutableMemory<T> ToImmutableMemory<T>(this T[] span, Int32 start) => new ImmutableMemory<T>(span.AsSpan(start));

@@ -9,7 +9,7 @@
 		<PackageProjectUrl>https://github.com/NickStrupat/System.ImmutableMemory</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/NickStrupat/System.ImmutableMemory</RepositoryUrl>
 		<PackageTags>immutable immutability memory readonly-memory span readonly-span</PackageTags>
-		<Version>1.0.0-beta1</Version>
+		<Version>1.0.0-beta3</Version>
 		<Description>Immutable versions of `Memory&lt;T&gt;` and `Span&lt;T&gt;`, because `ReadOnlyMemory/Span` doesn't imply the underlying memory won't be mutated. These types take sole ownership of the underlying memory and only provide a non-mutating API which closely resembles `ReadOnlyMemory/Span`.</Description>
 	</PropertyGroup>
 
