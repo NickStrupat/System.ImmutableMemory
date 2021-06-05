@@ -1,24 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>netstandard1.1;netstandard2.1</TargetFrameworks>
-		<LangVersion>8.0</LangVersion>
+		<TargetFramework>netstandard2.1</TargetFramework>
 		<PackageId>ImmutableMemory</PackageId>
 		<Authors>Nick Strupat</Authors>
 		<Product>ImmutableMemory</Product>
 		<PackageProjectUrl>https://github.com/NickStrupat/System.ImmutableMemory</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/NickStrupat/System.ImmutableMemory</RepositoryUrl>
+		<PackageLicenseUrl>https://github.com/NickStrupat/System.ImmutableMemory/blob/master/LICENSE</PackageLicenseUrl>
 		<PackageTags>immutable immutability memory readonly-memory span readonly-span</PackageTags>
-		<Version>1.0.0-beta3</Version>
-		<Description>Immutable versions of `Memory&lt;T&gt;` and `Span&lt;T&gt;`, because `ReadOnlyMemory/Span` doesn't imply the underlying memory won't be mutated. These types take sole ownership of the underlying memory and only provide a non-mutating API which closely resembles `ReadOnlyMemory/Span`.</Description>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
-		<DefineConstants>NETSTANDARD_2_1</DefineConstants>
+		<Version>1.0.0-beta4</Version>
+		<Description>Immutable versions of `Memory&gt;T&lt;` and `Span&gt;T&lt;`, because `ReadOnlyMemory/Span` doesn't imply the underlying memory won't be mutated. These types either wrap known immutable objects (String, Immutable...&gt;T&lt;` or they take sole ownership of a defensive copy of the underlying memory. They then provide a non-mutating API which closely resembles `ReadOnlyMemory/Span`.</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="System.Memory" Version="4.5.3" />
+		<PackageReference Include="System.Memory" Version="4.5.4" />
+		<PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
 	</ItemGroup>
 
 </Project>

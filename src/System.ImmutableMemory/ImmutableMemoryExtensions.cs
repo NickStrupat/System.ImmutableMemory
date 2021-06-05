@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Globalization;
 
 namespace System
@@ -36,6 +37,14 @@ namespace System
 		public static ImmutableSpan<Char> AsImmutableSpan(this String text) => text.AsImmutableMemory().AsImmutableSpan();
 		public static ImmutableSpan<Char> AsImmutableSpan(this String text, Int32 start) => text.AsImmutableMemory(start).AsImmutableSpan();
 		public static ImmutableSpan<Char> AsImmutableSpan(this String text, Int32 start, Int32 length) => text.AsImmutableMemory(start, length).AsImmutableSpan();
+
+		public static ImmutableMemory<T> AsImmutableMemory<T>(this ImmutableArray<T> array) => new ImmutableMemory<T>(array.AsMemory());
+		public static ImmutableMemory<T> AsImmutableMemory<T>(this ImmutableArray<T> array, Int32 start) => new ImmutableMemory<T>(array.AsMemory().Slice(start));
+		public static ImmutableMemory<T> AsImmutableMemory<T>(this ImmutableArray<T> array, Int32 start, Int32 length) => new ImmutableMemory<T>(array.AsMemory().Slice(start, length));
+		
+		public static ImmutableSpan<T> AsImmutableSpan<T>(this ImmutableArray<T> array) => new ImmutableSpan<T>(array.AsSpan());
+		public static ImmutableSpan<T> AsImmutableSpan<T>(this ImmutableArray<T> array, Int32 start) => new ImmutableSpan<T>(array.AsSpan().Slice(start));
+		public static ImmutableSpan<T> AsImmutableSpan<T>(this ImmutableArray<T> array, Int32 start, Int32 length) => new ImmutableSpan<T>(array.AsSpan().Slice(start, length));
 
 		public static Int32 BinarySearch<T, TComparer>(this ImmutableSpan<T> span, T value, TComparer comparer) where TComparer : IComparer<T> => span.AsSpan().BinarySearch(value, comparer);
 		public static Int32 BinarySearch<T, TComparable>(this ImmutableSpan<T> span, TComparable comparable) where TComparable : IComparable<T> => span.AsSpan().BinarySearch(comparable);

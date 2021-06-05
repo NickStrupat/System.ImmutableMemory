@@ -38,11 +38,4 @@ namespace System
 			return new ImmutableMemory<T>(array.AsMemory());
 		}
 	}
-
-#if !NETSTANDARD_2_1
-	namespace Buffers
-	{
-		public delegate void SpanAction<T, in TArg>(Span<T> span, TArg arg);
-	}
-#endif
 }
