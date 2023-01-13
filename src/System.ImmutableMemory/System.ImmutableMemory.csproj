@@ -10,7 +10,7 @@
 		<PackageLicenseUrl>https://github.com/NickStrupat/System.ImmutableMemory/blob/master/LICENSE</PackageLicenseUrl>
 		<PackageTags>immutable immutability memory readonly-memory span readonly-span</PackageTags>
 		<Version>1.0.0-beta4</Version>
-		<Description>Immutable versions of `Memory&gt;T&lt;` and `Span&gt;T&lt;`, because `ReadOnlyMemory/Span` doesn't imply the underlying memory won't be mutated. These types either wrap known immutable objects (String, Immutable...&gt;T&lt;` or they take sole ownership of a defensive copy of the underlying memory. They then provide a non-mutating API which closely resembles `ReadOnlyMemory/Span`.</Description>
+		<Description>Immutable versions of `Memory&lt;T&gt;` and `Span&lt;T&gt;`, because `ReadOnlyMemory/Span` doesn't imply the underlying memory won't be mutated. These types either wrap known immutable objects (String, Immutable...&lt;T&gt;` or they take sole ownership of a defensive copy of the underlying memory. They then provide a non-mutating API which closely resembles `ReadOnlyMemory/Span`.</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
