@@ -13,14 +13,14 @@
 		<Description>Immutable versions of `Memory&lt;T&gt;` and `Span&lt;T&gt;`, because `ReadOnlyMemory/Span` doesn't imply the underlying memory won't be mutated. These types either wrap known immutable objects (String, Immutable...&lt;T&gt;` or they take sole ownership of a defensive copy of the underlying memory. They then provide a non-mutating API which closely resembles `ReadOnlyMemory/Span`.</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
-	
+
 	<ItemGroup>
-		<None Include="../../README.md" Pack="true" PackagePath="\"/>
+		<PackageReference Include="System.Memory" Version="4.5.4"/>
+		<PackageReference Include="System.Collections.Immutable" Version="6.0.0"/>
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="System.Memory" Version="4.5.4" />
-		<PackageReference Include="System.Collections.Immutable" Version="5.0.0" />
+		<None Include="../../README.md" pack="true" PackagePath="." />
 	</ItemGroup>
 
 </Project>
