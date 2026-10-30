@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Immutable;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using Xunit;
 
 namespace System.ImmutableMemory.Tests
@@ -97,6 +95,86 @@ namespace System.ImmutableMemory.Tests
 			Assert.False(whole != same);
 			Assert.False(whole == part);
 			Assert.True(whole != part);
+		}
+
+		[Fact]
+		public void EmptyMemoryAndSpanHaveNoElements()
+		{
+			Assert.True(ImmutableMemory<Int32>.Empty.IsEmpty);
+			Assert.Equal(0, ImmutableMemory<Int32>.Empty.Length);
+			Assert.True(ImmutableSpan<Int32>.Empty.IsEmpty);
+			Assert.True(new Int32[0].ToImmutableMemory().IsEmpty);
+		}
+
+		[Fact]
+		public void MemorySliceSharesTheDefensiveCopy()
+		{
+			var im = new[] { 1, 2, 3, 4 }.ToImmutableMemory();
+			var slice = im.Slice(1, 2);
+			Assert.Equal(new[] { 2, 3 }, slice.ToArray());
+			Assert.True(im.AsSpan().Overlaps(slice.AsSpan()));
+			Assert.Equal(new[] { 3, 4 }, im.Slice(2).ToArray());
+		}
+
+		[Fact]
+		public void SpanSliceAndIndexerReturnExpectedElements()
+		{
+			var span = "hello".AsImmutableSpan();
+			Assert.Equal('e', span[1]);
+			Assert.Equal("ell", span.Slice(1, 3).ToString());
+			Assert.Equal("llo", span.Slice(2).ToString());
+		}
+
+		[Fact]
+		public void EnumeratorVisitsEveryElementInOrder()
+		{
+			var visited = "";
+			foreach (var c in "abc".AsImmutableSpan())
+				visited += c;
+			Assert.Equal("abc", visited);
+		}
+
+		[Fact]
+		public void TrimExtensionsReturnTrimmedImmutableSpans()
+		{
+			var span = "  x  ".AsImmutableSpan();
+			Assert.Equal("x", span.Trim().ToString());
+			Assert.Equal("x  ", span.TrimStart().ToString());
+			Assert.Equal("  x", span.TrimEnd().ToString());
+			Assert.Equal("x", "--x--".AsImmutableSpan().Trim('-').ToString());
+		}
+
+		[Fact]
+		public void SearchExtensionsMatchReadOnlySpanBehaviour()
+		{
+			var span = "abcabc".AsImmutableSpan();
+			Assert.Equal(1, span.IndexOf('b'));
+			Assert.Equal(4, span.LastIndexOf('b'));
+			Assert.Equal(2, span.IndexOf("CA".AsSpan(), StringComparison.OrdinalIgnoreCase));
+			Assert.True(span.StartsWith("abc".AsSpan()));
+			Assert.True(span.EndsWith("BC".AsSpan(), StringComparison.OrdinalIgnoreCase));
+			Assert.True(span.SequenceEqual("abcabc".AsSpan()));
+		}
+
+		[Fact]
+		public void ImmutableArrayAndArraySegmentConversions()
+		{
+			var immarr = ImmutableArray.Create(1, 2, 3, 4);
+			Assert.Equal(new[] { 2, 3 }, immarr.AsImmutableSpan(1, 2).ToArray());
+			Assert.Equal(new[] { 3, 4 }, immarr.AsImmutableMemory(2).ToArray());
+
+			var segment = new ArraySegment<Int32>(new[] { 0, 1, 2, 3 }, 1, 3);
+			Assert.Equal(new[] { 1, 2, 3 }, segment.ToImmutableMemory().ToArray());
+			Assert.Equal(new[] { 2 }, segment.ToImmutableMemory(1, 1).ToArray());
+		}
+
+		[Fact]
+		public void MutatingSourceAfterCopyDoesNotChangeImmutableMemory()
+		{
+			var array = new[] { 1, 2, 3 };
+			var im = array.ToImmutableMemory();
+			array[0] = 42;
+			Assert.Equal(1, im.AsSpan()[0]);
 		}
 	}
 }
