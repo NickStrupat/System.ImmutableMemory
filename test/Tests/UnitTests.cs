@@ -75,6 +75,17 @@ namespace System.ImmutableMemory.Tests
 		}
 
 		[Fact]
+		public void CreateFillsMemoryUsingState()
+		{
+			var im = ImmutableMemory<Int32>.Create(3, 10, (span, start) =>
+			{
+				for (var i = 0; i < span.Length; i++)
+					span[i] = start + i;
+			});
+			Assert.Equal(new[] { 10, 11, 12 }, im.ToArray());
+		}
+
+		[Fact]
 		public void EqualityOperatorsAreOpposites()
 		{
 			var text = "test";
