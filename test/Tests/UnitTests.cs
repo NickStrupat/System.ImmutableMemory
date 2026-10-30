@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Immutable;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Xunit;
 
 namespace System.ImmutableMemory.Tests
@@ -54,6 +56,36 @@ namespace System.ImmutableMemory.Tests
 			var im = immarr.AsImmutableMemory();
 			Assert.Equal(immarr.AsMemory(), immarr.AsMemory());
 			Assert.Equal(immarr.AsMemory(), im.AsMemory());
+		}
+
+		[Fact]
+		public void Stackalloc()
+		{
+			ReadOnlySpan<Int32> span = stackalloc[] { 1, 2, 3 };
+			var imm = ImmutableSpan<Int32>.UnsafeCreateWithoutCopy(span);
+			Assert.True(span == imm.AsSpan());
+		}
+
+		[Fact]
+		public void UnsafeCreateWithoutCopyPreservesElementType()
+		{
+			var source = new[] { "a", "b" };
+			ImmutableSpan<String> imm = ImmutableSpan<String>.UnsafeCreateWithoutCopy(source);
+			Assert.True(source.AsSpan() == imm.AsSpan());
+		}
+
+		[Fact]
+		public void EqualityOperatorsAreOpposites()
+		{
+			var text = "test";
+			var whole = text.AsImmutableSpan();
+			var same = text.AsImmutableSpan();
+			var part = text.AsImmutableSpan(1);
+
+			Assert.True(whole == same);
+			Assert.False(whole != same);
+			Assert.False(whole == part);
+			Assert.True(whole != part);
 		}
 	}
 }

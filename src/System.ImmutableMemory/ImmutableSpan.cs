@@ -5,7 +5,7 @@ namespace System
 {
 	public readonly ref struct ImmutableSpan<T>
 	{
-		internal readonly ReadOnlySpan<T> span;
+		private readonly ReadOnlySpan<T> span;
 		public ImmutableSpan(ImmutableMemory<T> immutableMemory) => span = immutableMemory.memory.Span;
 		internal ImmutableSpan(ReadOnlySpan<T> span) => this.span = span;
 		public static ImmutableSpan<T> Empty => default;
@@ -41,7 +41,7 @@ namespace System
 		public Boolean TryCopyTo(Span<T> destination) => span.TryCopyTo(destination);
 		
 		public static Boolean operator ==(ImmutableSpan<T> left, ImmutableSpan<T> right) => left.span == right.span;
-		public static Boolean operator !=(ImmutableSpan<T> left, ImmutableSpan<T> right) => left.span == right.span;
+		public static Boolean operator !=(ImmutableSpan<T> left, ImmutableSpan<T> right) => left.span != right.span;
 
 		public ref struct Enumerator
 		{
@@ -73,5 +73,7 @@ namespace System
 				get => ref span[index];
 			}
 		}
+
+		public static ImmutableSpan<T> UnsafeCreateWithoutCopy(ReadOnlySpan<T> span) => new(span);
 	}
 }
