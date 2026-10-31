@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Writes to sealed memory in the way named by its argument. The write is expected to kill this process, so the
+       tests run it as a child process and check how it exited. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\System.ImmutableMemory\System.ImmutableMemory.csproj" />
+  </ItemGroup>
+
+</Project>
