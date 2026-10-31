@@ -15,8 +15,8 @@ namespace System
 	/// <para>
 	/// Prototype. Small buffers are packed into shared 64 KB chunks. The chunk currently being filled still has a
 	/// writable alias inside this library until it is full; larger buffers get their own pages and never have one after
-	/// creation. On Linux, code in the same process can still <c>mprotect</c> the pages writable; on macOS and Windows
-	/// it can't.
+	/// creation. Code in the same process can't <c>mprotect</c>/<c>VirtualProtect</c> the pages writable. Linux needs
+	/// kernel 5.1 or later.
 	/// </para>
 	/// <para>
 	/// Dispose it once nothing reads it any more. Spans and pointers taken from <see cref="Memory"/> must not outlive

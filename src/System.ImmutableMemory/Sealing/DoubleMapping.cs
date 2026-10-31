@@ -110,10 +110,18 @@ namespace System.Sealing
 			}
 		}
 
-		// An anonymous memfd mapped twice. The fd is closed once both views exist.
+		// An anonymous memfd mapped twice. F_SEAL_FUTURE_WRITE (Linux 5.1+) is added between the two mmaps: the
+		// writable view, mapped before it, stays writable, while the read-only view, mapped after it, can't be
+		// mprotect-ed writable, and no new writable mapping or write() is allowed. The fd is closed once both views exist.
 		private static class Linux
 		{
-			private const UInt32 MfdCloexec = 1;
+			private const UInt32 MfdCloexec = 0x1;
+			private const UInt32 MfdAllowSealing = 0x2;
+			private const Int32 FAddSeals = 1024 + 9;
+			private const Int32 FSealSeal = 0x1;
+			private const Int32 FSealShrink = 0x2;
+			private const Int32 FSealGrow = 0x4;
+			private const Int32 FSealFutureWrite = 0x10;
 
 			[DllImport("libc", SetLastError = true)]
 			private static extern Int32 memfd_create(String name, UInt32 flags);
@@ -124,9 +132,13 @@ namespace System.Sealing
 			[DllImport("libc", SetLastError = true)]
 			private static extern Int32 close(Int32 fd);
 
+			// fcntl is variadic; on x64 and arm64 Linux an int vararg is passed like a fixed int argument.
+			[DllImport("libc", SetLastError = true)]
+			private static extern Int32 fcntl(Int32 fd, Int32 command, Int32 argument);
+
 			public static DoubleMapping Create(nuint size)
 			{
-				var fd = memfd_create("ImmutableMemory", MfdCloexec);
+				var fd = memfd_create("ImmutableMemory", MfdCloexec | MfdAllowSealing);
 				if (fd < 0)
 					throw new OutOfMemoryException($"memfd_create failed with errno {Marshal.GetLastPInvokeError()}.");
 				try
@@ -134,8 +146,19 @@ namespace System.Sealing
 					if (ftruncate(fd, (Int64)size) != 0)
 						throw new OutOfMemoryException($"ftruncate failed with errno {Marshal.GetLastPInvokeError()}.");
 					var writable = Posix.Map(size, Posix.ProtRead | Posix.ProtWrite, Posix.MapShared, fd);
-					var readOnly = Posix.Map(size, Posix.ProtRead, Posix.MapShared, fd);
-					return new DoubleMapping(writable, readOnly, size);
+					try
+					{
+						if (fcntl(fd, FAddSeals, FSealFutureWrite | FSealShrink | FSealGrow | FSealSeal) != 0)
+							throw new PlatformNotSupportedException(
+								$"Sealing the memfd failed with errno {Marshal.GetLastPInvokeError()}; F_SEAL_FUTURE_WRITE needs Linux 5.1 or later.");
+						var readOnly = Posix.Map(size, Posix.ProtRead, Posix.MapShared, fd);
+						return new DoubleMapping(writable, readOnly, size);
+					}
+					catch
+					{
+						Posix.Unmap(writable, size);
+						throw;
+					}
 				}
 				finally
 				{

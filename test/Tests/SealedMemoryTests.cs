@@ -71,7 +71,6 @@ namespace System.ImmutableMemory.Tests
 		[Fact]
 		public unsafe void ReadOnlyViewCannotBeMadeWritable()
 		{
-			Assert.SkipWhen(OperatingSystem.IsLinux(), "On Linux the read-only view can still be mprotect-ed writable.");
 			using var sealedMemory = SealedMemory<Int32>.Create(new[] { 1, 2, 3 });
 			using var handle = sealedMemory.Memory.Pin();
 			var pageSize = (UInt64)Environment.SystemPageSize;
