@@ -5,6 +5,7 @@
     <RootNamespace>System.ImmutableMemory.Tests</RootNamespace>
     <IsPackable>false</IsPackable>
     <OutputType>Exe</OutputType>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\System.ImmutableMemory\System.ImmutableMemory.csproj" />
+    <ProjectReference Include="..\FaultProbe\FaultProbe.csproj" />
   </ItemGroup>
 
 </Project>
